@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Вход в систему</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Вход администратора</h1>
+        
+        {% if error %}
+            <p style="color: red; text-align: center; font-weight: bold; margin-bottom: 15px;">{{ error }}</p>
+        {% endif %}
+        
+        <form method="POST">
+            <input type="text" name="username" placeholder="Логин (admin)" required>
+            <input type="password" name="password" placeholder="Пароль (123)" required>
+            <button type="submit" style="width: 100%;">Войти</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 20px;"><a href="/">← Вернуться на главную</a></p>
+    </div>
+</body>
+</html>

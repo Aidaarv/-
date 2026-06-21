@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ book.title }} - Детали</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📖 Детальная информация о книге</h1>
+        
+        <div class="message">
+            <strong>Название:</strong> {{ book.title }}
+        </div>
+        
+        <div class="message">
+            <strong>Автор:</strong> {{ book.author }}
+        </div>
+        
+        <div class="message">
+            <strong>Год издания:</strong> {{ book.year or 'Не указан' }}
+        </div>
+        
+        <div class="message">
+            <strong>Жанр:</strong> {{ book.genre or 'Не указан' }}
+        </div>
+        
+        <div class="message">
+            <strong>Статус чтения:</strong> {{ book.status }}
+        </div>
+        
+        <div class="message">
+            <strong>Моя оценка:</strong> 
+            {% if book.rating %}
+                <span style="color: #ff9800;">{{ "⭐" * book.rating }}</span> ({{ book.rating }} из 5)
+            {% else %}
+                <span style="color: gray;">Оценка отсутствует</span>
+            {% endif %}
+        </div>
+        
+        <div class="message" style="background-color: #f9f9f9; border-top: 1px dashed #ccc; margin-top: 15px;">
+            <strong>📝 Личные заметки:</strong>
+            <p style="white-space: pre-wrap; margin-top: 5px; color: #333;">{{ book.notes or 'Заметок пока нет.' }}</p>
+        </div>
+        
+        <p style="text-align: center; margin-top: 30px;">
+            <a href="/" class="b" style="text-decoration: none;">← Назад к списку</a>
+        </p>
+    </div>
+</body>
+</html>

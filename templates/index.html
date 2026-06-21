@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Трекер чтения книг</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        
+        <aside class="sidebar">
+            <div class="sidebar-sticky">
+                <h1>📚 Книжный трекер</h1>
+
+                <div class="auth-box">
+                    {% if logged_in %}
+                        👤 <strong>{{ username }}</strong> | <a href="/logout">Выйти</a>
+                    {% else %}
+                        <a href="/login">🔑 Войти как админ</a>
+                    {% endif %}
+                </div>
+                
+                <div class="counter">
+                    <h3>📊 Мой прогресс</h3>
+                    <p>Прочитано: <strong>{{ stats.read }}</strong> | Читаю: <strong>{{ stats.reading }}</strong></p>
+                    <p>Средняя оценка: <strong>{{ stats.avg_rating }} / 5 ⭐</strong></p>
+                    
+                    <div class="progress-section">
+                        <small>Доля прочитанных книг:</small>
+                        <div class="progress-bar-bg">
+                            {% if stats.total > 0 %}
+                                {% set percent = (stats.read / stats.total * 100)|round %}
+                                 <div class="progress-bar-fill" data-width="{{ percent }}">
+                                    <script>
+                                    document.querySelectorAll('.progress-bar-fill').forEach(el => {
+                                        el.style.width = el.dataset.width + '%';
+                                     });
+                                    </script>
+                                    {{ percent }}%
+                                </div>
+                            {% else %}
+                                <div class="progress-empty">Нет данных</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="top-genres">
+                        <small>🔝 Популярные жанры:</small>
+                        <ul>
+                            {% for genre in stats.top_genres %}
+                                <li>{{ genre.genre }} ({{ genre.count }})</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="add-form">
+                    <h2>➕ Добавить книгу</h2>
+                    <form method="POST" action="/add">
+                        <input type="text" name="title" placeholder="Название книги" required>
+                        <input type="text" name="author" placeholder="Автор" required>
+                        <input type="number" name="year" placeholder="Год издания">
+                        <input type="text" name="genre" placeholder="Жанр (например: Фэнтези)">
+                        
+                        <label for="status">Статус:</label>
+                        <select name="status" id="status">
+                            <option value="Хочу прочитать">Хочу прочитать</option>
+                            <option value="Читаю">Читаю</option>
+                            <option value="Прочитано">Прочитано</option>
+                        </select>
+
+                        <label for="rating">Оценка:</label>
+                        <select name="rating" id="rating">
+                            <option value="">Без оценки</option>
+                            <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                            <option value="4">4 ⭐⭐⭐⭐</option>
+                            <option value="3">3 ⭐⭐⭐</option>
+                            <option value="2">2 ⭐⭐</option>
+                            <option value="1">1 ⭐</option>
+                        </select>
+
+                        <textarea name="notes" placeholder="Личные заметки и мысли..." rows="3"></textarea>
+                        <button type="submit">Добавить в список</button>
+                    </form>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            
+            {% if session.pop('success', False) %}
+                <div class="a">
+                    🎉 Книга успешно добавлена в трекер!
+                </div>
+            {% endif %}
+
+            <div class="content-header">
+                <h2>📋 Моя библиотека</h2>
+                
+                <form method="GET" action="/" class="search-form">
+                    <input type="text" name="q" placeholder="Поиск по названию, автору...">
+                    <button type="submit">🔍</button>
+                </form>
+
+                <div class="sorting-links">
+                    <span>📅 Сортировка:</span>
+                    <a href="/?sort=id DESC">Новые</a> | 
+                    <a href="/?sort=rating DESC">По оценке</a> | 
+                    <a href="/?sort=year DESC">По году</a>
+                </div>
+            </div>
+                
+            <div class="books-list">
+                {% if books %}
+                    {% for book in books %}
+                    <div class="message" {% if book.status == 'Прочитано' %}style="border-left: 5px solid #28a745;"{% elif book.status == 'Читаю' %}style="border-left: 5px solid #ffc107;"{% endif %}>
+                        
+                        {% if logged_in %}
+                            <a href="/delete/{{ book.id }}" class="delete-btn" onclick="return confirm('Удалить книгу?')">×</a>
+                        {% endif %}
+                        
+                        <div class="book-info">
+                            <strong>📖 <a href="/detail/{{ book.id }}">{{ book.title }}</a></strong> 
+                            <span class="book-author">от {{ book.author }}</span>
+                            <br><small class="book-meta">Жанр: {{ book.genre or 'Не указан' }} | Год: {{ book.year or '—' }}</small>
+                        </div>
+                        
+                        <div class="book-status-row">
+                            <span class="status-badge">{{ book.status }}</span>
+                            {% if book.rating %}
+                                <span class="rating-badge">{{ "⭐" * book.rating }}</span>
+                            {% endif %}
+                        </div>
+
+                        <div class="status-actions">
+                            <a href="/status/{{ book.id }}/Читаю" class="b btn-status-reading">Читаю</a>
+                            <a href="/status/{{ book.id }}/Прочитано" class="b btn-status-read">Прочитано</a>
+                            <a href="/status/{{ book.id }}/Хочу прочитать" class="b btn-status-want">Хочу</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <p>Книг не найдено. Попробуйте изменить запрос или добавить новую книгу слева! 😉</p>
+                    </div>
+                {% endif %}
+            </div>
+        </main>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,349 @@
+/* Общие настройки страницы */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.4;
+}
+
+/* .container теперь превращается в гибкую сетку (Flexbox) для двух колонок */
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 25px;
+    align-items: flex-start; /* Чтобы колонки не растягивались по высоте неравномерно */
+}
+
+/* ================= СТИЛИ ЛЕВОЙ КОЛОНКИ (Сайдбар) ================= */
+.sidebar {
+    flex: 1; /* Занимает 1 часть пространства (~350px) */
+    min-width: 320px;
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Фиксация сайдбара при прокрутке списка книг */
+.sidebar-sticky {
+    position: sticky;
+    top: 20px;
+}
+
+.sidebar h1 {
+    font-size: 1.6rem;
+    color: #1e293b;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.auth-box {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.auth-box a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+/* Блок статистики .counter */
+.counter {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #475569;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.counter h3 {
+    margin: 0 0 10px 0;
+    font-size: 1.1rem;
+    color: #475569;
+}
+
+/* Полоса прогресса */
+.progress-section {
+    margin: 12px 0;
+}
+
+.progress-bar-bg {
+    background-color: #e2e8f0;
+    border-radius: 10px;
+    height: 16px;
+    width: 100%;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    height: 100%;
+    text-align: center;
+    color: white;
+    font-size: 0.75rem;
+    line-height: 16px;
+    font-weight: bold;
+    transition: width 0.3s ease;
+}
+
+.progress-empty {
+    color: #94a3b8;
+    font-size: 0.75rem;
+    text-align: center;
+    line-height: 16px;
+}
+
+.top-genres ul {
+    margin: 5px 0 0 18px;
+    padding: 0;
+    font-size: 0.85rem;
+    color: #475569;
+}
+
+/* Форма добавления книги .add-form */
+.add-form {
+    border-top: 1px dashed #e2e8f0;
+    margin-top: 20px;
+    padding-top: 15px;
+}
+
+.add-form h2 {
+    font-size: 1.2rem;
+    color: #1e293b;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.add-form label {
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: bold;
+}
+
+/* Поля ввода */
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 9px 12px;
+    margin: 4px 0 12px 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: #64748b;
+    box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.15);
+}
+
+button {
+    width: 100%;
+    background-color: #475569;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+button:hover {
+    background-color: #334155;
+}
+
+
+/* ================= СТИЛИ ПРАВОЙ КОЛОНКИ (Контент) ================= */
+.main-content {
+    flex: 2; /* Занимает 2 части пространства (~700px) */
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    min-height: 500px;
+}
+
+.content-header {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.content-header h2 {
+    margin: 0 0 15px 0;
+    color: #1e293b;
+}
+
+/* Поиск */
+.search-form {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.search-form input {
+    margin: 0;
+}
+
+.search-form button {
+    width: auto;
+    padding: 0 15px;
+}
+
+/* Сортировка */
+.sorting-links {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.sorting-links a {
+    color: #475569;
+    text-decoration: none;
+    margin: 0 4px;
+}
+
+.sorting-links a:hover {
+    text-decoration: underline;
+    color: #1e293b;
+}
+
+/* Карточка книги .message */
+.message {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.message strong a {
+    color: #1e293b;
+    font-size: 1.1rem;
+    text-decoration: none;
+}
+
+.message strong a:hover {
+    color: #3b82f6;
+}
+
+.book-author {
+    color: #475569;
+    font-size: 0.95rem;
+    margin-left: 5px;
+}
+
+.book-meta {
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+.book-status-row {
+    margin: 8px 0;
+}
+
+.status-badge {
+    background: #e2e8f0;
+    color: #334155;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.rating-badge {
+    margin-left: 10px;
+    font-size: 0.9rem;
+}
+
+/* Маленькие кнопки смены статуса .b */
+.status-actions {
+    margin-top: 12px;
+    display: flex;
+    gap: 6px;
+}
+
+.b {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    text-decoration: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+}
+
+.btn-status-reading { background-color: #eab308; color: #000; }
+.btn-status-read { background-color: #22c55e; }
+.btn-status-want { background-color: #64748b; }
+
+.b:hover {
+    opacity: 0.85;
+}
+
+/* Кнопка удаления .delete-btn */
+.delete-btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    color: #ef4444;
+    text-decoration: none;
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.delete-btn:hover {
+    color: #b91c1c;
+}
+
+/* Уведомление об успехе .a */
+.a {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 500;
+    animation: fadeOut 3.5s forwards;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+.empty-state {
+    text-align: center;
+    color: #64748b;
+    padding: 40px 20px;
+}
+
+/* Адаптивность для мобильных устройств (планшеты/телефоны) */
+@media (max-width: 850px) {
+    .container {
+        flex-direction: column;
+    }
+    .sidebar, .main-content {
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .sidebar-sticky {
+        position: static;
+    }
+}
